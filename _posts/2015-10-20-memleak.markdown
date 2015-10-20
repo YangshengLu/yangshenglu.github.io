@@ -11,7 +11,7 @@ categories: Android
 
 ## 常见的内存泄漏
 
-#### 非static内部类
+#### 非static内部类和匿名内部类
 在java中，内部类会持有外部类的一个强引用，这在代码中并没有表现出来，但是却是致命的如果这个匿名内部类被一个静态变量（或者静态变量持有的对象）所引用，那么就很容易造成内存泄漏在Android开发中的常见表现是一个Activity（或者之类的Context）中实例化的匿名内部类事件回调被一个单例所引用，所造成的后果是Activity被leak，Activity以及Activity所强引用的对象，都无法在onDestroy之后被GC回收
 
 对于这类型的leak，常用的解决方法有两种  
