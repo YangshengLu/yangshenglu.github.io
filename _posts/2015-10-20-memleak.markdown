@@ -52,4 +52,4 @@ categories: Android
 
 ## 写在最后
 分享一个追查mem leak的神器
-https://github.com/square/leakcanary
+[Leakcanary](https://github.com/square/leakcanary)
