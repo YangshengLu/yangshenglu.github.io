@@ -5,18 +5,16 @@
 
   <body>
 
-    <div class="container-fluid" id="main-layout">
-      <div class="sidebar col-sm-12 col-md-3">
-        {% include sidebar.html %}
-      </div>
-      <div class="content col-sm-12 col-md-9">
+    {% include header.html %}
+
+    <div class="page-content">
+      <div class="wrapper">
         {{ content }}
-        {% include footer.html %}
       </div>
     </div>
 
-  </body>
+    {% include footer.html %}
 
-  {% include js.html %}
+  </body>
 
 </html>
