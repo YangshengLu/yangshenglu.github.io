@@ -21,7 +21,7 @@ categories: Android
 #### Handler引起的内存泄漏
 从某种角度上来说，Handler引起的内存泄漏其实和上面所提到的内存泄漏为同一种，这里单独提出来，是因为Handler引起的内存泄漏更为隐晦。  
 参考下面代码
-
+ 
     // somewhere in activity
     HandlerThread thread = new ...
     thread.start();
