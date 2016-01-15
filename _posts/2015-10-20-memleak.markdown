@@ -22,19 +22,20 @@ categories: Android
 从某种角度上来说，Handler引起的内存泄漏其实和上面所提到的内存泄漏为同一种，这里单独提出来，是因为Handler引起的内存泄漏更为隐晦。  
 参考下面代码
 
- ```java
+ ```Java
     // somewhere in activity
     HandlerThread thread = new ...
     thread.start();
     Looper looper = thread.getLooper()
     Hander handler = new { ... }(looper); // where leak may happen
 ```
+
 这段代码，初略看上去，是没有leak的。然而线程对于jvm来说，是全局的，handlerthread对hander有强引用，而匿名handler持有对Activity的引用，造成的后果是Activity内存泄漏。其实这段代码，影响并不大，只要你记得在onDestroy处调用thread.quit()就好了，原理同上。
 
 #### HashMap引起的内存泄漏
 如果一个HashMap是静态的或者持有HashMap引用的变量是静态的，并且这个HashMap的Key是自定义对象，那么这个HashMap有可能会引起内存泄漏。在Java中，HashMap真正用于散列的，是Key的hashCode，这个值，对于String变量，是字符串进行一系列均匀散列的值，对于其他类，如果父类和自身都没有覆写过hashCode，那么这个值是对象在jvm内存中的的地址。考虑下面这种情况
 
-```java
+```Java
     // somewhere
     static HashMap<SomeKey,SomeValue> map = ...
     SomeKey key = new ...
@@ -45,6 +46,7 @@ categories: Android
     SomeKey key = new ...
     SomeValue = map.get(key)
 ```
+
 因为对象是new生成的，在jvm中的地址不一致，导致get到的变量为null，然而put却是有效的，后果是这个HashMap会不断变大，泄漏的内存最终把jvm吃光T_T
 
 因为在Android中，经常用HashMap等数据结构做变量缓存，因此，在使用非String对象类型作为key的时候，必须格外小心。在使用HashMap做缓存的时候，如果出现这类型的leak，表现出来的是缓存一直未命中，但是程序却能正常运行，直到很久之后，出现OOME。
