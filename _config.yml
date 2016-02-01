@@ -1,7 +1,7 @@
 # Site settings
 title: Oopsoome
 email: lys701@gmail.com
-description: > # this means to ignore newlines until "baseurl:"
+description: > 
   一个不想当攻城狮的程序猿不是好的程序猿
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "https://mryangyang.github.io" # the base hostname & protocol for your site
