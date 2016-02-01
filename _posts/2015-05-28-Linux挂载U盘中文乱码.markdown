@@ -10,7 +10,8 @@ categories: Linux
 UTF-8，之后发现这个可以通过自定义挂载参数来解决，如果U盘
 对应的设备描述文件是`/dev/sdb`，要挂载到`/mnt`,可以使用命
 令  
-
-`sudo mount -o rw,uid=$USER,iocharset=gbk /dev/sdb /mnt`
+{% highlight bash %}
+sudo mount -o rw,uid=$USER,iocharset=gbk /dev/sdb /mnt
+{% endhighlight %}
 
 中文文件名的问题不再是问题...
