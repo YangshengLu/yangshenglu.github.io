@@ -44,10 +44,8 @@ brew install git openssl gnupg
 #!/bin/bash
 curl http://www.execve.net/curl/curl-7.47.0.zip -o curl-7.47.0.zip
 unzip curl-7.47.0.zip
-curl https://www.openssl.org/source/openssl-1.0.2f.tar.gz -o openssl-1.0.2f.tar.gz
-tar -zxvf openssl-1.0.2f.tar.gz
-cd curl-7.47.0
-./configure --prefix=/usr/local --with-ssl=../openssl-1.0.2f
+OPEN_SSL_DIR=`ls -1 -d /usr/local/Cellar/openssl/* | tail -n 1`
+./configure --prefix=/usr/local --with-ssl=$OPEN_SSL_DIR
 make -j 4 && make install
 {% endhighlight %}
 
