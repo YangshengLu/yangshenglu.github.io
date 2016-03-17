@@ -2,6 +2,8 @@
 layout: post
 title:  "在OSX上下载和编译Android6.0源代码"
 date:   2016-02-01
+header-img: "img/post-bg-01.jpg"
+author:  "MrYang"
 categories: Android
 ---
 最近事情想对少, 也是想提升一下自己对Android的认识, 打算认真阅读一下Android系统的源代码. 在下载代码和编译的过程中, 遇到了一些问题, 这里记录下来, 以备不时之需.  

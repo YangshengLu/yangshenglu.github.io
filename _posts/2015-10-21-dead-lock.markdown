@@ -2,6 +2,8 @@
 layout: post
 title:  "死锁发生的必要条件"
 date:   2015-10-21 20:42:43
+header-img: "img/post-bg-01.jpg"
+author:  "MrYang"
 categories: Note
 ---
 # 死锁发生的必要条件

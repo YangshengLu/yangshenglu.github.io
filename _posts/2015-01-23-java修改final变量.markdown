@@ -2,6 +2,8 @@
 layout: post
 title: java修改final变量
 date:   2015-01-23 20:42:43
+author:     "MrYang"
+header-img: "img/post-bg-01.jpg"
 categories: Java
 ---
 __不推荐在应用层的代码里面这么做,因为这里的实现逻辑是使用到了jdk实现的细节,不确保在所有的jvm上都可以生效__  
