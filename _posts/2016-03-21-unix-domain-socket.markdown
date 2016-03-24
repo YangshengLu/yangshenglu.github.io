@@ -11,6 +11,7 @@ categories: Linux
 unix domain socket创建的过程几乎和tcp socket一模一样。区别只在于unix domain socket没有经过网络层，仅仅接口类似，unix domain socket不会自己重新拆分数据包。废话不多说，上hello world代码。
 
 #### 公共头文件
+
 {% highlight c %}
 #ifndef _MSG_H_
 #define _MSG_H_
@@ -26,6 +27,7 @@ struct rpc_msg {
 {% endhighlight %}
 
 #### server代码
+
 {% highlight c %}
 #include <unistd.h>
 #include <stdio.h>
@@ -121,6 +123,7 @@ int main(int argc, char *argv[])
 {% endhighlight %}
 
 #### client代码
+
 {% highlight c %}
 #include <sys/un.h>
 #include <sys/socket.h>
