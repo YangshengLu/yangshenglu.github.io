@@ -12,7 +12,7 @@ unix domain socket创建的过程几乎和tcp socket一模一样。区别只在�
 
 #### 公共头文件
 
-{% highlight c %}
+``` cpp
 #ifndef _MSG_H_
 #define _MSG_H_
 
@@ -24,11 +24,11 @@ struct rpc_msg {
 };
 
 #endif
-{% endhighlight %}
+```
 
 #### server代码
 
-{% highlight c %}
+``` cpp
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,8 +38,7 @@ struct rpc_msg {
 #include <string.h>
 #include <fcntl.h>
 #include <poll.h>
-#include "msg.h" 
-
+#include "msg.h"
 
 static int server_fd = -1;
 void signal_int_handler(int sig) {
@@ -120,11 +119,11 @@ int main(int argc, char *argv[])
     }
     return 0;
 }
-{% endhighlight %}
+```
 
 #### client代码
 
-{% highlight c %}
+``` cpp
 #include <sys/un.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -155,4 +154,4 @@ int main(int argc, char *argv[])
     close(s);
     return 0;
 }
-{% endhighlight %}
+```

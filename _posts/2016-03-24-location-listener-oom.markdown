@@ -9,7 +9,7 @@ categories: "Android"
 ### 内存泄漏根源分析
 这个内存泄漏引起的根源，是在没有移除NmeaListener、LocationListener的情况下，使调用addNmeaListener的线程退出。首现来看看Android SDK中addNmeaListener是怎么实现的
 
-{% highlight java %}
+``` Java
 public boolean addNmeaListener(GpsStatus.NmeaListener listener) {
     boolean result;
 
@@ -30,11 +30,11 @@ public boolean addNmeaListener(GpsStatus.NmeaListener listener) {
 
     return result;
 }
-{% endhighlight %}
+```
 
 其中`GpsStatusListenerTransport`继承`IGpsStatusListener.Stub`，是IGpsStatusListener AIDL的实现，意味着GpsStatusListenerTransport的各个回调函数是在Binder Thread中被回调的，而GpsStatusListenerTransport也创建了一个handler，使用的Looper是myLooper，用来确保NmeaListener的回调与addNmeaListener在同一个线程中执行，代码如下
 
-{% highlight java %}
+``` Java
 @Override
 public void onNmeaReceived(long timestamp, String nmea) {
     if (mNmeaListener != null) {
@@ -69,13 +69,13 @@ private final Handler mGpsHandler = new Handler() {
         }
     }
 };
-{% endhighlight %}
+```
 
 通过上面的知识，我们可以确定，如果自己创建了线程，并且调用过`Looper.prepare()`然后再`addNmeaListener`，却最终没有调用`Looper.loop()`，或者是在`Looper.loop()`退出之后，没有`removeNmeaListener`，都会引起mNmeaBuffer的堆积，最终造成OOM
 
 ### 内存泄漏代码
 
-{% highlight java %}
+``` Java
 new Thread() {
     @Override
     public void run() {
@@ -115,7 +115,7 @@ new Thread() {
         }
     }
 }.start();
-{% endhighlight %}
+```
 
 上面的代码中，如果`doSomethingMayThrow()`抛出一个异常，会造成`Looper.loop()`不会被执行，并且后续也没有`removeNmeaListener`。感兴趣的朋友可以随便写个小程序运行一下上面那段代码，可以发现java堆的大小不断的上涨，GC也无法回收，一段时间之后OOM，如果期间dump下app的内存，可以看到mNmeaBuffer占据了绝大多数的内存，我就插一张图吧，<strong><font color="red">下面的图是线上OOM的dump文件分析出来的，不是hello world！！！</font></strong>
 
@@ -127,7 +127,7 @@ new Thread() {
 
 ### 修复内存泄漏代码示例
 
-{% highlight java %}
+``` Java
 new Thread() {
     @Override
     public void run() {
@@ -177,6 +177,6 @@ new Thread() {
         }
     }
 }.start();
-{% endhighlight %}
+```
 
 修复的方法总结起来就是，如果`addNmeaListener`等函数是在非主线程当中调用的，那么只要该线程跳出`Looper.loop()`，一定要确保`removeNmeaListener`、`removeUpdates`和`myLooper.quit()`被执行
