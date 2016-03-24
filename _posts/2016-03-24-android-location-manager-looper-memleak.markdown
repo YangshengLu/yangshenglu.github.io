@@ -1,10 +1,10 @@
 ---
-layout: post
+layout: "post"
 title:  "NmeaListener、LocationListener与Looper错误使用引起的内存泄漏"
-date:   2016-03-24
+date: "2016-03-24"
 header-img: "img/post-bg-03.jpg"
 author:  "MrYang"
-categories: Android
+categories: "Android"
 ---
 ### 内存泄漏根源分析
 这个内存泄漏引起的根源，是在没有移除NmeaListener、LocationListener的情况下，使调用addNmeaListener的线程退出。首现来看看Android SDK中addNmeaListener是怎么实现的
@@ -115,10 +115,10 @@ new Thread() {
 上面的代码中，如果`doSomethingMayThrow()`抛出一个异常，会造成`Looper.loop()`不会被执行，并且后续也没有`removeNmeaListener`。感兴趣的朋友可以随便写个小程序运行一下上面那段代码，可以发现java堆的大小不断的上涨，GC也无法回收，一段时间之后OOM，如果期间dump下app的内存，可以看到mNmeaBuffer占据了绝大多数的内存，我就插一张图吧，<strong><font color="red">下面的图是线上OOM的dump文件分析出来的，不是hello world！！！</font></strong>
 
 -----
-![MAT_OOM_1]({{ site.url }}/assets/nmea_listener_oom_1.png)
+![MAT_OOM_1](http://mryangyang.github.io/assets/nmea_listener_oom_1.png)
 
 -----
-![MAT_OOM_2]({{ site.url }}/assets/nmea_listener_oom_2.png)
+![MAT_OOM_2](http://mryangyang.github.io/assets/nmea_listener_oom_2.png)
 
 ### 修复内存泄漏代码示例
 

@@ -1,10 +1,10 @@
 ---
-layout: post
+layout: "post"
 title:  "Unix Domain Socket"
-date:   2016-03-21
+date:   "2016-03-21"
 header-img: "img/post-bg-02.jpg"
 author:  "MrYang"
-categories: Linux
+categories: "Linux"
 ---
 >虽然以前搭建LAMP或者LNMP环境的时候，都接触到过一些.sock结尾的配置，也知道那是一个unix socket文件，但是还没有在代码中使用过unix domain socket. 近来阅读安卓系统代码，遇到了一些，记录下来备忘
 
@@ -36,7 +36,7 @@ struct rpc_msg {
 #include <string.h>
 #include <fcntl.h>
 #include <poll.h>
-#include "msg.h" 
+#include "msg.h"
 
 
 static int server_fd = -1;
