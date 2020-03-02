@@ -2,7 +2,7 @@
 layout: "post"
 title:  "NmeaListener、LocationListener与Looper错误使用引起的内存泄漏"
 date: "2016-03-24"
-author: oopsoome
+author: YangshengLu
 categories: "Android"
 ---
 ### 内存泄漏根源分析

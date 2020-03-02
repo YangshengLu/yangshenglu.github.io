@@ -2,7 +2,7 @@
 layout: post
 title:  "死锁发生的必要条件"
 date:   2015-10-21 20:42:43
-author:  oopsoome
+author:  YangshengLu
 categories: Note
 ---
 1. 资源独占   

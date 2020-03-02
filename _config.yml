@@ -6,7 +6,7 @@ baseurl: ""
 url: "https://fellautumnrain.me"
 #for debug
 # url: "http://127.0.0.1:4000"
-github_username: MrYangYang
+github_username: YangshengLu
 show_excerpts: true
 
 # Build settings

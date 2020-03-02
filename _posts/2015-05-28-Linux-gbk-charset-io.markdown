@@ -2,7 +2,7 @@
 layout: post
 title: Linux挂载U盘中文乱码
 date: "2015-01-23 20:42:43"
-author: oopsoome
+author: YangshengLu
 categories: Linux
 ---
 在linux下面挂载U盘，遇到中文文件名总是乱码，从Linux复制
