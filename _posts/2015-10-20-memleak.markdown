@@ -2,7 +2,6 @@
 layout: post
 title:  "Android内存泄露笔记"
 date:   2015-10-20 20:42:43
-header-img: "img/post-bg-01.jpg"
 author:  "MrYang"
 categories: Android
 ---
