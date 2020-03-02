@@ -10,7 +10,7 @@ $base-line-height: 1.5 !default;
 
 $spacing-unit:     30px !default;
 
-$text-color:       #111 !default;
+$text-color:       #24292e !default;
 $background-color: #fdfdfd !default;
 $brand-color:      #2a7ae2 !default;
 
@@ -21,10 +21,11 @@ $grey-color-dark:  darken($grey-color, 25%) !default;
 $table-text-align: left !default;
 
 // Width of the content area
-$content-width:    1024px !default;
+$content-width:    800px !default;
 
 $on-palm:          600px !default;
 $on-laptop:        800px !default;
+$on-desktop:       1366px !default;
 
 // Use media queries like this:
 // @include media-query($on-palm) {
@@ -56,4 +57,9 @@ $on-laptop:        800px !default;
  blockquote {
   // remove -1px for Chinese font issue
   letter-spacing: 0px;
+}
+
+// revert a:visited
+a:visited {
+  color: $brand-color;
 }
