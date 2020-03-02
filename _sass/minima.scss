@@ -63,3 +63,19 @@ $on-desktop:       1366px !default;
 a:visited {
   color: $brand-color;
 }
+
+// post link font size 
+.post-link-small {
+  @extend .post-link;
+  @include relative-font-size(1.2);
+}
+
+.paginator_next {
+  float: right;
+}
+
+.paginator_current {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}

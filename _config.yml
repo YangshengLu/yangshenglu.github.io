@@ -7,8 +7,16 @@ url: "https://fellautumnrain.me"
 #for debug
 # url: "http://127.0.0.1:4000"
 github_username: MrYangYang
+show_excerpts: true
 
 # Build settings
 theme: minima
 # kramdown:
   # syntax_highlighter_opts:
+minima:
+  date_format: "%Y-%m-%d"
+
+plugins:
+  - jekyll-paginate
+
+paginate: 5

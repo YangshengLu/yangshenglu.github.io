@@ -1,16 +1,16 @@
 ---
-layout: "post"
+layout: post
 title:  "Vivo X5SL上的SecurityException: xxx cannot kill pkg ..."
 date: "2016-03-30"
 header-img: "img/post-bg-04.jpg"
 author:  "MrYang"
 categories: "Android"
 ---
+> 真是被Android国产机型的各种问题ROM操得不要不要的，你敢相信么，正常地使用ContentProvider也会造成Crash，下面就是完整的分析
+
 {:.no_toc}
 * Will be replaced with the ToC, excluding the "Contents" header
 {:toc}
-
-> 真是被Android国产机型的各种问题ROM操得不要不要的，你敢相信么，正常地使用ContentProvider也会造成Crash，下面就是完整的分析
 
 ### 问题的由来
 

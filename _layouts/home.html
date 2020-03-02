@@ -9,10 +9,10 @@ layout: default
 
   {{ content }}
 
-  {%- if site.posts.size > 0 -%}
+  {%- if paginator.posts.size > 0 -%}
     <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
     <ul class="post-list">
-      {%- for post in site.posts -%}
+      {%- for post in paginator.posts -%}
       <li>
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         <span class="post-meta">{{ post.date | date: date_format }}</span>
@@ -28,5 +28,21 @@ layout: default
       {%- endfor -%}
     </ul>
   {%- endif -%}
+
+  <div>
+    {% if paginator.previous_page_path %}
+      <a class="paginator_prev" href="{{ paginator.previous_page_path | relative_url }}">
+        上一页
+      </a>
+    {% endif %}
+
+    <span class="paginator_current">第{{ paginator.page }}页</span>
+
+    {% if paginator.next_page_path %}
+      <a class="paginator_next" href="{{ paginator.next_page_path | relative_url }}">
+        下一页
+      </a>
+    {% endif %}
+  </div>
 
 </div>

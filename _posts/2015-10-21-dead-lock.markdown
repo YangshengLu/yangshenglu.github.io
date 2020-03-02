@@ -6,7 +6,6 @@ header-img: "img/post-bg-01.jpg"
 author:  "MrYang"
 categories: Note
 ---
-# 死锁发生的必要条件
 1. 资源独占   
 即一个资源不能同时内两个对象所占有
 2. 不可抢夺  
