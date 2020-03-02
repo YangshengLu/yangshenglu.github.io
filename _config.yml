@@ -1,0 +1,14 @@
+# Site settings
+title: Oopsoome
+email: lys701@gmail.com
+description: "不想自测的程序员不是好QA"
+baseurl: ""
+url: "https://fellautumnrain.me"
+#for debug
+# url: "http://127.0.0.1:4000"
+github_username: MrYangYang
+
+# Build settings
+theme: minima
+# kramdown:
+  # syntax_highlighter_opts:

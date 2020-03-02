@@ -6,9 +6,13 @@ header-img: "img/post-bg-04.jpg"
 author:  "MrYang"
 categories: "Android"
 ---
+{:.no_toc}
+* Will be replaced with the ToC, excluding the "Contents" header
+{:toc}
+
 > 真是被Android国产机型的各种问题ROM操得不要不要的，你敢相信么，正常地使用ContentProvider也会造成Crash，下面就是完整的分析
 
-## 问题的始末
+### 问题的始末
 
 在工作中，发现我司开发的App出现了不少如下类似的Crash
 
@@ -28,6 +32,9 @@ categories: "Android"
     	at dalvik.system.NativeStart.main(Native Method)
 
 我发誓！我们的App绝对没有尝试kill掉任何竞对的App，而且，上面的stacktrace也没有看到任何包含我们app代码的stack，就是说，Crash是在系统的Framework层上挂掉的，我怀疑问题出现在rom本身。通过归类整理，发现：<font color="red">所有这样类似的Crash，都是在vivo机型上出现的!!!</font>  
+
+### 分析
+
 好了，到这里的时候，可以甩锅了。反正不是我们的问题。然而，锅甩出去了，问题并没有解决。
 先去搜索了一下aosp代码，搜索到`cannot kill pkg:`这几个关键字只在killApplicationWithAppId这个函数 中出现 
 
@@ -67,7 +74,7 @@ Vivo Rom中updateOomAdjLocked这个函数，被改得特别地长（相对于AOS
 
 下面是上述调用路径中，一些关键性的代码
 
-### ContentResolver.java
+#### ContentResolver.java
 
 ```java
 public final Cursor query(final Uri uri, String[] projection,
@@ -92,7 +99,7 @@ public final Cursor query(final Uri uri, String[] projection,
 }
 ```
 
-### ContextImpl.java 
+#### ContextImpl.java 
 
 ```java
 private static final class ApplicationContentResovler extends ContentResolver {
@@ -100,12 +107,13 @@ private static final class ApplicationContentResovler extends ContentResolver {
     // ...
     @Override
     public boolean releaseProvider(IContentProvider provider) {
+        // 下层入口
         return mMainThread.releaseProvider(provider, true);
     }
 }
 ```
 
-### ActivityThread.java
+#### ActivityThread.java
 
 ```java
 public final boolean releaseProvider(IContentProvider provider, boolean stable) {
@@ -114,7 +122,7 @@ public final boolean releaseProvider(IContentProvider provider, boolean stable) 
         // ...
         if (lastRef) {
             if (!prc.removePending) {
-                // ...
+                // 下层入口
                 prc.removePending = true;
                 Message msg = mH.obtainMessage(H.REMOVE_PROVIDER, prc);
                 mH.sendMessage(msg);
@@ -134,6 +142,7 @@ private class H extands Handler {
         switch (msg.what) {
             // ...
             case REMOVE_PROVIDER:
+                // 下层入口
                 completeRemoveProvider((ProviderRefCount)msg.obj);
                 break;
             // ...
@@ -148,16 +157,16 @@ final void completeRemoveProvider(ProviderRefCount prc) {
             Slog.v(TAG, "removeProvider: Invoking ActivityManagerNative."
                     + "removeContentProvider(" + prc.holder.info.name + ")");
         }
+        // 下层入口
         ActivityManagerNative.getDefault().removeContentProvider(
                 prc.holder.connection, false);
     } catch (RemoteException e) {
         //do nothing content provider object is dead any way
     }
 }
-
 ```
 
-### ActivityManagerService.java
+#### ActivityManagerService.java
 
 ```java
 public void removeContentProvider(IBinder connection, boolean stable) {
@@ -166,6 +175,7 @@ public void removeContentProvider(IBinder connection, boolean stable) {
         synchronized (this) {
             // ...
             if (decProviderCountLocked(conn, null, null, stable)) {
+                // 下层入口
                 updateOomAdjLocked();
             }
         }
@@ -175,13 +185,16 @@ public void removeContentProvider(IBinder connection, boolean stable) {
 }
 ```
 
-## 感想
+### 感想
 你敢相信么，一个移动操作系统，被改到四大核心组建都不可用的状态？Vivo得有多坑爹才能做到这种程度。并且，更蛋疼的是这个异常不能被catch，异常发生在ActivityThread的一个异步线程中。要么vivo自己修复这个问题（我觉得vivo不会这么做的，国内厂商，能靠谱地给旧手机升级系统的有几家？），要么，放弃ContentProvider，再要么，放弃Vivo :D
 
 下面就是vivo rom中的updateOomAdjLocked函数，一个神奇的函数  
-代码来自反编译，仅供研究和学习之用，侵删。  
+代码来自反编译，仅供研究和学习之用，侵删。
 
-```java
+{::options parse_block_html="true" /}
+
+<details><summary markdown="span">updateOomAdjLocked</summary>
+``` java
 final void updateOomAdjLocked() {
     int cachedProcessLimit;
     int emptyProcessLimit;
@@ -526,4 +539,5 @@ final void updateOomAdjLocked() {
     }
 }
 ```
-
+</details>
+{::options parse_block_html="false" /}
