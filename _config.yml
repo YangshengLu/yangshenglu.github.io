@@ -1,20 +1,14 @@
 # Site settings
-# theme name clean-blog
 title: Oopsoome
-email: lys701l@gmail.com
+email: lys701@gmail.com
 description: "不想自测的程序员不是好QA"
 baseurl: ""
-url: "https://mryangyang.github.io"
+url: "https://fellautumnrain.me"
 #for debug
-#url: "http://127.0.0.1:4000"
-twitter_username: SBootstrap
+# url: "http://127.0.0.1:4000"
 github_username: MrYangYang
-facebook_username:  IronSummitMedia
 
 # Build settings
-markdown: kramdown
-highlighter: rouge
-permalink: pretty
-paginate: 5
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
-gems: ['jekyll-paginate']
+theme: minima
+# kramdown:
+  # syntax_highlighter_opts:
