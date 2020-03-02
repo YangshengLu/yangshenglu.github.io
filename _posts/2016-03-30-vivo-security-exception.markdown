@@ -1,18 +1,18 @@
 ---
-layout: "post"
+layout: post
 title:  "Vivo X5SL上的SecurityException: xxx cannot kill pkg ..."
 date: "2016-03-30"
 header-img: "img/post-bg-04.jpg"
 author:  "MrYang"
 categories: "Android"
 ---
+> 真是被Android国产机型的各种问题ROM操得不要不要的，你敢相信么，正常地使用ContentProvider也会造成Crash，下面就是完整的分析
+
 {:.no_toc}
 * Will be replaced with the ToC, excluding the "Contents" header
 {:toc}
 
-> 真是被Android国产机型的各种问题ROM操得不要不要的，你敢相信么，正常地使用ContentProvider也会造成Crash，下面就是完整的分析
-
-### 问题的始末
+### 问题的由来
 
 在工作中，发现我司开发的App出现了不少如下类似的Crash
 
@@ -33,7 +33,7 @@ categories: "Android"
 
 我发誓！我们的App绝对没有尝试kill掉任何竞对的App，而且，上面的stacktrace也没有看到任何包含我们app代码的stack，就是说，Crash是在系统的Framework层上挂掉的，我怀疑问题出现在rom本身。通过归类整理，发现：<font color="red">所有这样类似的Crash，都是在vivo机型上出现的!!!</font>  
 
-### 分析
+### Crash分析
 
 好了，到这里的时候，可以甩锅了。反正不是我们的问题。然而，锅甩出去了，问题并没有解决。
 先去搜索了一下aosp代码，搜索到`cannot kill pkg:`这几个关键字只在killApplicationWithAppId这个函数 中出现 
@@ -186,7 +186,7 @@ public void removeContentProvider(IBinder connection, boolean stable) {
 ```
 
 ### 感想
-你敢相信么，一个移动操作系统，被改到四大核心组建都不可用的状态？Vivo得有多坑爹才能做到这种程度。并且，更蛋疼的是这个异常不能被catch，异常发生在ActivityThread的一个异步线程中。要么vivo自己修复这个问题（我觉得vivo不会这么做的，国内厂商，能靠谱地给旧手机升级系统的有几家？），要么，放弃ContentProvider，再要么，放弃Vivo :D
+你敢相信么，一个移动操作系统，被改到四大核心组建都不可用的状态？Vivo得有多坑爹才能做到这种程度。并且，更蛋疼的是这个异常不能被catch，异常发生在ActivityThread的一个异步线程中。要么vivo自己修复这个问题（我觉得vivo不会这么做的，国内厂商，能靠谱地给旧手机升级系统的有几家？），要么，放弃ContentProvider，再要么，放弃Vivo 🙈
 
 下面就是vivo rom中的updateOomAdjLocked函数，一个神奇的函数  
 代码来自反编译，仅供研究和学习之用，侵删。
