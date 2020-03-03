@@ -20,3 +20,9 @@ plugins:
   - jekyll-paginate
 
 paginate: 5
+
+# not working
+seo_paginator_message: ''
+
+# google analytics
+google_analytics: UA-159541781-1
